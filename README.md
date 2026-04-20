@@ -6,6 +6,14 @@ Built with **Soroban smart contracts** (Rust) + **React/TypeScript** frontend. T
 
 ---
 
+## 🔴 Live Demo
+
+**[https://stellar-token-launchpad.vercel.app](https://stellar-token-launchpad.vercel.app)**
+
+> Connect Freighter wallet (set to Testnet) → Fund via Friendbot → Launch your token
+
+---
+
 ## 🌐 Live Contract
 
 | | |
