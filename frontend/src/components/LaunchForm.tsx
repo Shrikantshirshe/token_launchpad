@@ -1,0 +1,246 @@
+import { useState, type FormEvent } from 'react'
+import { Rocket, Info, Loader2, ChevronDown } from 'lucide-react'
+import { useLaunchpad } from '../hooks/useLaunchpad'
+import { useWallet } from '../hooks/useWallet'
+import { parseAmount } from '../lib/stellar'
+import FundAccountBanner from './FundAccountBanner'
+import { MAX_TOKEN_NAME_LENGTH, MAX_TOKEN_SYMBOL_LENGTH, DECIMAL_OPTIONS } from '../lib/constants'
+import toast from 'react-hot-toast'
+
+interface FormState {
+  name: string
+  symbol: string
+  decimals: number
+  initialSupply: string
+}
+
+const INITIAL_FORM: FormState = {
+  name: '',
+  symbol: '',
+  decimals: 7,
+  initialSupply: '1000000',
+}
+
+interface LaunchFormProps {
+  onSuccess?: (txHash: string) => void
+}
+
+export default function LaunchForm({ onSuccess }: LaunchFormProps) {
+  const [form, setForm] = useState<FormState>(INITIAL_FORM)
+  const [errors, setErrors] = useState<Partial<FormState>>({})
+  const { launching, launchToken } = useLaunchpad()
+  const { connected, publicKey } = useWallet()
+
+  const validate = (): boolean => {
+    const newErrors: Partial<FormState> = {}
+
+    if (!form.name.trim()) {
+      newErrors.name = 'Token name is required'
+    } else if (form.name.length > MAX_TOKEN_NAME_LENGTH) {
+      newErrors.name = `Max ${MAX_TOKEN_NAME_LENGTH} characters`
+    }
+
+    if (!form.symbol.trim()) {
+      newErrors.symbol = 'Symbol is required'
+    } else if (form.symbol.length > MAX_TOKEN_SYMBOL_LENGTH) {
+      newErrors.symbol = `Max ${MAX_TOKEN_SYMBOL_LENGTH} characters`
+    } else if (!/^[A-Z0-9]+$/.test(form.symbol)) {
+      newErrors.symbol = 'Uppercase letters and numbers only'
+    }
+
+    if (!form.initialSupply || Number(form.initialSupply) <= 0) {
+      newErrors.initialSupply = 'Supply must be greater than 0'
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!connected || !publicKey) {
+      toast.error('Please connect your wallet first')
+      return
+    }
+    if (!validate()) return
+
+    try {
+      const supplyBigInt = parseAmount(form.initialSupply, form.decimals)
+      const txHash = await launchToken(
+        {
+          name: form.name.trim(),
+          symbol: form.symbol.trim().toUpperCase(),
+          decimals: form.decimals,
+          initialSupply: supplyBigInt,
+        },
+        publicKey,
+      )
+
+      toast.success('Token launched successfully!')
+      setForm(INITIAL_FORM)
+      onSuccess?.(txHash)
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Launch failed')
+    }  }
+
+  const field = (
+    id: keyof FormState,
+    label: string,
+    placeholder: string,
+    hint?: string,
+    extra?: React.InputHTMLAttributes<HTMLInputElement>,
+  ) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <label
+        htmlFor={id}
+        style={{ fontSize: 13, fontWeight: 500, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}
+      >
+        {label}
+        {hint && (
+          <span title={hint} style={{ cursor: 'help', color: '#475569' }}>
+            <Info size={12} />
+          </span>
+        )}
+      </label>
+      <input
+        id={id}
+        className="input-field"
+        placeholder={placeholder}
+        value={form[id] as string}
+        onChange={(e) => {
+          setForm((f) => ({ ...f, [id]: e.target.value }))
+          if (errors[id]) setErrors((er) => ({ ...er, [id]: undefined }))
+        }}
+        disabled={launching}
+        {...extra}
+      />
+      {errors[id] && (
+        <span style={{ fontSize: 12, color: '#ef4444' }}>{errors[id]}</span>
+      )}
+    </div>
+  )
+
+  return (
+    <form onSubmit={handleSubmit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {connected && <FundAccountBanner />}
+      {field('name', 'Token Name', 'e.g. My Awesome Token', `Max ${MAX_TOKEN_NAME_LENGTH} characters`)}
+
+      {field(
+        'symbol',
+        'Token Symbol',
+        'e.g. MAT',
+        `Max ${MAX_TOKEN_SYMBOL_LENGTH} uppercase characters`,
+        {
+          style: { textTransform: 'uppercase' },
+          maxLength: MAX_TOKEN_SYMBOL_LENGTH,
+          onInput: (e) => {
+            const el = e.currentTarget
+            el.value = el.value.toUpperCase().replace(/[^A-Z0-9]/g, '')
+          },
+        },
+      )}
+
+      {/* Decimals */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <label
+          htmlFor="decimals"
+          style={{ fontSize: 13, fontWeight: 500, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}
+        >
+          Decimals
+          <span title="Number of decimal places. 7 is standard for Stellar tokens." style={{ cursor: 'help', color: '#475569' }}>
+            <Info size={12} />
+          </span>
+        </label>
+        <div style={{ position: 'relative' }}>
+          <select
+            id="decimals"
+            className="input-field"
+            value={form.decimals}
+            onChange={(e) => setForm((f) => ({ ...f, decimals: Number(e.target.value) }))}
+            disabled={launching}
+            style={{ appearance: 'none', paddingRight: 36, cursor: 'pointer' }}
+          >
+            {DECIMAL_OPTIONS.map((d) => (
+              <option key={d} value={d} style={{ background: '#0a0e1a' }}>
+                {d} {d === 7 ? '(Stellar standard)' : d === 18 ? '(EVM-style)' : ''}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            size={16}
+            style={{
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#475569',
+              pointerEvents: 'none',
+            }}
+          />
+        </div>
+      </div>
+
+      {field(
+        'initialSupply',
+        'Initial Supply',
+        'e.g. 1000000',
+        'Total tokens minted to your wallet on launch',
+        { type: 'number', min: '1', step: '1' },
+      )}
+
+      {/* Preview */}
+      {form.name && form.symbol && form.initialSupply && (
+        <div
+          style={{
+            padding: '14px 16px',
+            background: 'rgba(99, 102, 241, 0.06)',
+            border: '1px solid rgba(99, 102, 241, 0.15)',
+            borderRadius: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8,
+          }}
+        >
+          <div style={{ fontSize: 11, color: '#6366f1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+            Preview
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+            <span style={{ color: '#64748b' }}>Name</span>
+            <span style={{ color: '#e2e8f0', fontWeight: 500 }}>{form.name}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+            <span style={{ color: '#64748b' }}>Symbol</span>
+            <span style={{ color: '#6366f1', fontWeight: 600 }}>${form.symbol.toUpperCase()}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
+            <span style={{ color: '#64748b' }}>Supply</span>
+            <span style={{ color: '#e2e8f0', fontFamily: 'monospace' }}>
+              {Number(form.initialSupply).toLocaleString()} {form.symbol.toUpperCase()}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <button
+        type="submit"
+        className="btn-primary"
+        disabled={launching || !connected}
+        style={{ width: '100%', padding: '14px 24px', fontSize: 15, marginTop: 4 }}
+      >
+        {launching ? (
+          <>
+            <Loader2 size={16} className="animate-spin" />
+            Launching Token...
+          </>
+        ) : !connected ? (
+          'Connect Wallet to Launch'
+        ) : (
+          <>
+            <Rocket size={16} />
+            Launch Token
+          </>
+        )}
+      </button>
+    </form>
+  )
+}
