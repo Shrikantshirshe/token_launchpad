@@ -4,6 +4,8 @@ Deploy a real SEP-41 token on Stellar Testnet in under two minutes. No CLI, no c
 
 **Live app → [stellar-token-launchpad.vercel.app](https://stellar-token-launchpad.vercel.app)**
 
+![CI](https://github.com/Shrikantshirshe/token_launchpad/actions/workflows/ci.yml/badge.svg)
+
 ---
 
 ## What this actually is
@@ -16,12 +18,25 @@ The whole thing — deploy, initialize, mint, transfer admin — happens atomica
 
 ---
 
+## Live deployment
+
+| | |
+|---|---|
+| **Launchpad contract** | [`CD7EJEMPI3RVAA2XJ4WSP7265QWC5VXOAJW32UJWDYECZKYGZIWE7QBW`](https://stellar.expert/explorer/testnet/contract/CD7EJEMPI3RVAA2XJ4WSP7265QWC5VXOAJW32UJWDYECZKYGZIWE7QBW) |
+| **Deploy transaction** | [`10791934e9bdc235ed902cf80f2558dd336e110fe467a66a430d3640404d9dc8`](https://stellar.expert/explorer/testnet/tx/10791934e9bdc235ed902cf80f2558dd336e110fe467a66a430d3640404d9dc8) |
+| **Initialize transaction** | [`4c2da5b9b50f77a476fa20a5b6ad75986b86010f87aab9a78b0e3e0ee0b4a79b`](https://stellar.expert/explorer/testnet/tx/4c2da5b9b50f77a476fa20a5b6ad75986b86010f87aab9a78b0e3e0ee0b4a79b) |
+| **Example token launched** | [`e8d6d707e2916adfa16e46c1d2cc6bc8789fb3624c3117a7f974371362575beb`](https://stellar.expert/explorer/testnet/tx/e8d6d707e2916adfa16e46c1d2cc6bc8789fb3624c3117a7f974371362575beb) |
+| **Network** | Stellar Testnet |
+| **RPC** | `https://soroban-testnet.stellar.org` |
+
+---
+
 ## Stack
 
 - **Contracts** — Rust / Soroban (two contracts: launchpad + token)
 - **Frontend** — React 18, TypeScript, Vite, Freighter wallet
-- **Network** — Stellar Testnet
-- **Deployed contract** — [`CD7EJEMPI3RVAA2XJ4WSP7265QWC5VXOAJW32UJWDYECZKYGZIWE7QBW`](https://stellar.expert/explorer/testnet/contract/CD7EJEMPI3RVAA2XJ4WSP7265QWC5VXOAJW32UJWDYECZKYGZIWE7QBW)
+- **CI/CD** — GitHub Actions (contract tests + frontend build on every push)
+- **Hosting** — Vercel
 
 ---
 
@@ -39,6 +54,44 @@ Launchpad.launch_token(name, symbol, decimals, supply)
 ```
 
 The launchpad also records the token in its registry so it shows up in the explorer and your dashboard.
+
+---
+
+## Tests
+
+```
+running 7 tests (launchpad)
+✓ test_initialize
+✓ test_launch_token_inter_contract
+✓ test_get_token_info
+✓ test_get_creator_tokens
+✓ test_multiple_launches_and_pagination
+✓ test_set_launch_fee
+✓ test_double_initialize_panics
+
+running 8 tests (token)
+✓ test_initialize
+✓ test_mint_and_balance
+✓ test_transfer
+✓ test_approve_and_transfer_from
+✓ test_burn
+✓ test_set_admin
+✓ test_transfer_insufficient_balance
+✓ test_double_initialize_panics
+
+15 passed, 0 failed
+```
+
+---
+
+## CI/CD
+
+Every push to `main` runs two jobs via GitHub Actions:
+
+- **Contract Tests** — spins up Ubuntu, installs Rust + `wasm32v1-none`, runs `cargo test` across both contracts
+- **Frontend Build** — installs Node 20, runs `tsc` type check, then `vite build`
+
+Config lives at [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ---
 
@@ -70,10 +123,12 @@ The deploy script funds your account via Friendbot, builds and uploads the token
 
 ```
 stellar-token-launchpad/
+├── .github/workflows/
+│   └── ci.yml             GitHub Actions — tests + build on every push
 ├── contracts/
-│   ├── launchpad/     orchestrates deployments, stores the token registry
-│   └── token/         SEP-41 token — one fresh instance per launch
-├── frontend/          React dApp
+│   ├── launchpad/         orchestrates deployments, stores the token registry
+│   └── token/             SEP-41 token — one fresh instance per launch
+├── frontend/              React dApp
 └── scripts/
     └── deploy.sh
 ```
@@ -110,39 +165,23 @@ fn set_admin(new_admin: Address)
 
 ---
 
-## Tests
-
-```
-running 7 tests (launchpad)
-✓ test_initialize
-✓ test_launch_token_inter_contract
-✓ test_get_token_info
-✓ test_get_creator_tokens
-✓ test_multiple_launches_and_pagination
-✓ test_set_launch_fee
-✓ test_double_initialize_panics
-
-running 8 tests (token)
-✓ test_initialize
-✓ test_mint_and_balance
-✓ test_transfer
-✓ test_approve_and_transfer_from
-✓ test_burn
-✓ test_set_admin
-✓ test_transfer_insufficient_balance
-✓ test_double_initialize_panics
-
-15 passed, 0 failed
-```
-
----
-
 ## Environment variables
 
 ```env
 VITE_LAUNCHPAD_CONTRACT_ID=CD7EJEMPI3RVAA2XJ4WSP7265QWC5VXOAJW32UJWDYECZKYGZIWE7QBW
 VITE_NETWORK_PASSPHRASE=Test SDF Network ; September 2015
 ```
+
+---
+
+## What's still needed from you
+
+Two things can't be automated:
+
+- **Demo video** — a 1-minute screen recording showing connect wallet → fund → launch token → see it in explorer. Loom works fine.
+- **Mobile screenshot** — open the live app on your phone or use Chrome DevTools mobile view, screenshot the launch page.
+
+Drop both into the README once you have them.
 
 ---
 
