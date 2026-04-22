@@ -93,11 +93,11 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <label
         htmlFor={id}
-        style={{ fontSize: 13, fontWeight: 500, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}
+        style={{ fontSize: 13, fontWeight: 500, color: '#374151', display: 'flex', alignItems: 'center', gap: 6 }}
       >
         {label}
         {hint && (
-          <span title={hint} style={{ cursor: 'help', color: '#475569' }}>
+          <span title={hint} style={{ cursor: 'help', color: '#94a3b8' }}>
             <Info size={12} />
           </span>
         )}
@@ -115,7 +115,7 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
         {...extra}
       />
       {errors[id] && (
-        <span style={{ fontSize: 12, color: '#ef4444' }}>{errors[id]}</span>
+        <span style={{ fontSize: 12, color: '#dc2626' }}>{errors[id]}</span>
       )}
     </div>
   )
@@ -144,10 +144,10 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <label
           htmlFor="decimals"
-          style={{ fontSize: 13, fontWeight: 500, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 6 }}
+          style={{ fontSize: 13, fontWeight: 500, color: '#374151', display: 'flex', alignItems: 'center', gap: 6 }}
         >
           Decimals
-          <span title="Number of decimal places. 7 is standard for Stellar tokens." style={{ cursor: 'help', color: '#475569' }}>
+          <span title="Number of decimal places. 7 is standard for Stellar tokens." style={{ cursor: 'help', color: '#94a3b8' }}>
             <Info size={12} />
           </span>
         </label>
@@ -158,10 +158,10 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
             value={form.decimals}
             onChange={(e) => setForm((f) => ({ ...f, decimals: Number(e.target.value) }))}
             disabled={launching}
-            style={{ appearance: 'none', paddingRight: 36, cursor: 'pointer' }}
+            style={{ appearance: 'none', paddingRight: 36, cursor: 'pointer', background: 'white' }}
           >
             {DECIMAL_OPTIONS.map((d) => (
-              <option key={d} value={d} style={{ background: '#0a0e1a' }}>
+              <option key={d} value={d} style={{ background: 'white', color: '#0f172a' }}>
                 {d} {d === 7 ? '(Stellar standard)' : d === 18 ? '(EVM-style)' : ''}
               </option>
             ))}
@@ -173,7 +173,7 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
               right: 12,
               top: '50%',
               transform: 'translateY(-50%)',
-              color: '#475569',
+              color: '#94a3b8',
               pointerEvents: 'none',
             }}
           />
@@ -193,28 +193,28 @@ export default function LaunchForm({ onSuccess }: LaunchFormProps) {
         <div
           style={{
             padding: '14px 16px',
-            background: 'rgba(99, 102, 241, 0.06)',
-            border: '1px solid rgba(99, 102, 241, 0.15)',
+            background: '#f0f9ff',
+            border: '1px solid #bae6fd',
             borderRadius: 10,
             display: 'flex',
             flexDirection: 'column',
             gap: 8,
           }}
         >
-          <div style={{ fontSize: 11, color: '#6366f1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+          <div style={{ fontSize: 11, color: '#0369a1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
             Preview
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
             <span style={{ color: '#64748b' }}>Name</span>
-            <span style={{ color: '#e2e8f0', fontWeight: 500 }}>{form.name}</span>
+            <span style={{ color: '#0f172a', fontWeight: 500 }}>{form.name}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
             <span style={{ color: '#64748b' }}>Symbol</span>
-            <span style={{ color: '#6366f1', fontWeight: 600 }}>${form.symbol.toUpperCase()}</span>
+            <span style={{ color: '#2563eb', fontWeight: 600 }}>${form.symbol.toUpperCase()}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
             <span style={{ color: '#64748b' }}>Supply</span>
-            <span style={{ color: '#e2e8f0', fontFamily: 'monospace' }}>
+            <span style={{ color: '#0f172a', fontFamily: "'DM Mono', monospace" }}>
               {Number(form.initialSupply).toLocaleString()} {form.symbol.toUpperCase()}
             </span>
           </div>

@@ -6,7 +6,8 @@ import { shortenAddress } from '../lib/stellar'
 import WalletButton from './WalletButton'
 
 const NAV_LINKS = [
-  { to: '/', label: 'Launch' },
+  { to: '/', label: 'Home' },
+  { to: '/launch', label: 'Launch Token' },
   { to: '/explore', label: 'Explore' },
   { to: '/my-tokens', label: 'My Tokens' },
 ]
@@ -24,10 +25,11 @@ export default function Navbar() {
         left: 0,
         right: 0,
         zIndex: 100,
-        background: 'rgba(5, 8, 16, 0.85)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(99, 102, 241, 0.12)',
+        background: 'rgba(255,255,255,0.95)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid #e2e8f0',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
       }}
     >
       <nav
@@ -58,21 +60,20 @@ export default function Navbar() {
               width: 34,
               height: 34,
               borderRadius: 10,
-              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              background: '#2563eb',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 16px rgba(99, 102, 241, 0.4)',
             }}
           >
-            <Rocket size={18} color="white" />
+            <Rocket size={17} color="white" />
           </div>
           <span
             style={{
-              fontFamily: "'Space Grotesk', sans-serif",
+              fontFamily: "'DM Sans', sans-serif",
               fontWeight: 700,
               fontSize: 17,
-              color: '#f1f5f9',
+              color: '#0f172a',
               letterSpacing: '-0.02em',
             }}
           >
@@ -83,7 +84,7 @@ export default function Navbar() {
         {/* Desktop nav */}
         <div
           className="hide-mobile"
-          style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+          style={{ display: 'flex', alignItems: 'center', gap: 2 }}
         >
           {NAV_LINKS.map((link) => {
             const active = location.pathname === link.to
@@ -97,8 +98,8 @@ export default function Navbar() {
                   fontSize: 14,
                   fontWeight: 500,
                   textDecoration: 'none',
-                  color: active ? '#f1f5f9' : '#94a3b8',
-                  background: active ? 'rgba(99, 102, 241, 0.12)' : 'transparent',
+                  color: active ? '#2563eb' : '#475569',
+                  background: active ? '#eff6ff' : 'transparent',
                   transition: 'all 0.15s ease',
                 }}
               >
@@ -117,10 +118,10 @@ export default function Navbar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '6px 12px',
+                padding: '5px 12px',
                 borderRadius: 8,
-                background: 'rgba(16, 185, 129, 0.08)',
-                border: '1px solid rgba(16, 185, 129, 0.2)',
+                background: '#f0fdf4',
+                border: '1px solid #bbf7d0',
               }}
             >
               <div
@@ -128,11 +129,10 @@ export default function Navbar() {
                   width: 7,
                   height: 7,
                   borderRadius: '50%',
-                  background: '#10b981',
-                  boxShadow: '0 0 6px #10b981',
+                  background: '#16a34a',
                 }}
               />
-              <span style={{ fontSize: 12, color: '#34d399', fontFamily: 'monospace' }}>
+              <span style={{ fontSize: 12, color: '#15803d', fontFamily: "'DM Mono', monospace", fontWeight: 500 }}>
                 {shortenAddress(publicKey)}
               </span>
             </div>
@@ -146,10 +146,10 @@ export default function Navbar() {
             onClick={() => setMobileOpen((v) => !v)}
             style={{
               background: 'transparent',
-              border: '1px solid rgba(99, 102, 241, 0.2)',
+              border: '1.5px solid #e2e8f0',
               borderRadius: 8,
               padding: 8,
-              color: '#94a3b8',
+              color: '#475569',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -165,11 +165,12 @@ export default function Navbar() {
       {mobileOpen && (
         <div
           style={{
-            borderTop: '1px solid rgba(99, 102, 241, 0.12)',
+            borderTop: '1px solid #e2e8f0',
             padding: '12px 24px 16px',
             display: 'flex',
             flexDirection: 'column',
             gap: 4,
+            background: 'white',
           }}
         >
           {NAV_LINKS.map((link) => {
@@ -185,8 +186,8 @@ export default function Navbar() {
                   fontSize: 14,
                   fontWeight: 500,
                   textDecoration: 'none',
-                  color: active ? '#f1f5f9' : '#94a3b8',
-                  background: active ? 'rgba(99, 102, 241, 0.12)' : 'transparent',
+                  color: active ? '#2563eb' : '#475569',
+                  background: active ? '#eff6ff' : 'transparent',
                 }}
               >
                 {link.label}

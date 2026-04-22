@@ -21,7 +21,6 @@ export default function FundAccountBanner() {
         setFunded(true)
         toast.success('Account funded with 10,000 XLM on Testnet!')
       } else {
-        // Already funded is fine
         if (JSON.stringify(data).includes('already')) {
           setFunded(true)
           toast.success('Account already funded')
@@ -30,7 +29,6 @@ export default function FundAccountBanner() {
         }
       }
     } catch (err) {
-      // If it errors with "already exists" that's fine
       const msg = err instanceof Error ? err.message : ''
       if (msg.toLowerCase().includes('exist') || msg.toLowerCase().includes('already')) {
         setFunded(true)
@@ -46,10 +44,10 @@ export default function FundAccountBanner() {
   return (
     <div
       style={{
-        background: 'rgba(245, 158, 11, 0.07)',
-        border: '1px solid rgba(245, 158, 11, 0.25)',
+        background: '#fffbeb',
+        border: '1px solid #fde68a',
         borderRadius: 12,
-        padding: '14px 18px',
+        padding: '14px 16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -59,12 +57,12 @@ export default function FundAccountBanner() {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <Droplets size={16} color="#f59e0b" />
+        <Droplets size={15} color="#d97706" />
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#fcd34d' }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: '#92400e' }}>
             Fund your Testnet account
           </div>
-          <div style={{ fontSize: 12, color: '#92400e', marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: '#78350f', marginTop: 2 }}>
             You need XLM to pay transaction fees. Get free Testnet XLM from Friendbot.
           </div>
         </div>
@@ -93,10 +91,10 @@ export default function FundAccountBanner() {
             alignItems: 'center',
             gap: 6,
             padding: '7px 14px',
-            background: 'rgba(245, 158, 11, 0.15)',
-            border: '1px solid rgba(245, 158, 11, 0.35)',
+            background: '#fef3c7',
+            border: '1px solid #fde68a',
             borderRadius: 8,
-            color: '#fcd34d',
+            color: '#92400e',
             fontSize: 12,
             fontWeight: 600,
             cursor: funding ? 'not-allowed' : 'pointer',

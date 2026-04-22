@@ -17,43 +17,41 @@ export default function WalletButton() {
 
   if (connected && publicKey) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <button
-          onClick={disconnect}
-          title="Disconnect wallet"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '8px 14px',
-            background: 'rgba(99, 102, 241, 0.1)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            borderRadius: 10,
-            color: '#a5b4fc',
-            fontSize: 13,
-            fontWeight: 500,
-            cursor: 'pointer',
-            transition: 'all 0.15s ease',
-            fontFamily: 'inherit',
-          }}
-          onMouseEnter={(e) => {
-            const el = e.currentTarget
-            el.style.background = 'rgba(239, 68, 68, 0.1)'
-            el.style.borderColor = 'rgba(239, 68, 68, 0.3)'
-            el.style.color = '#fca5a5'
-          }}
-          onMouseLeave={(e) => {
-            const el = e.currentTarget
-            el.style.background = 'rgba(99, 102, 241, 0.1)'
-            el.style.borderColor = 'rgba(99, 102, 241, 0.25)'
-            el.style.color = '#a5b4fc'
-          }}
-        >
-          <Wallet size={14} />
-          <span className="hide-mobile">{shortenAddress(publicKey, 4)}</span>
-          <LogOut size={13} />
-        </button>
-      </div>
+      <button
+        onClick={disconnect}
+        title="Disconnect wallet"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          padding: '8px 14px',
+          background: '#eff6ff',
+          border: '1.5px solid #bfdbfe',
+          borderRadius: 10,
+          color: '#2563eb',
+          fontSize: 13,
+          fontWeight: 500,
+          cursor: 'pointer',
+          transition: 'all 0.15s ease',
+          fontFamily: 'inherit',
+        }}
+        onMouseEnter={(e) => {
+          const el = e.currentTarget
+          el.style.background = '#fef2f2'
+          el.style.borderColor = '#fecaca'
+          el.style.color = '#dc2626'
+        }}
+        onMouseLeave={(e) => {
+          const el = e.currentTarget
+          el.style.background = '#eff6ff'
+          el.style.borderColor = '#bfdbfe'
+          el.style.color = '#2563eb'
+        }}
+      >
+        <Wallet size={14} />
+        <span className="hide-mobile">{shortenAddress(publicKey, 4)}</span>
+        <LogOut size={13} />
+      </button>
     )
   }
 

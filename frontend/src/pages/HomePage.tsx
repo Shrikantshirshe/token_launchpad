@@ -1,253 +1,422 @@
-import { useState } from 'react'
-import { Zap, Shield, Globe, ExternalLink, ArrowRight } from 'lucide-react'
+import { Zap, Shield, Globe, ArrowRight, CheckCircle, Layers, Users, Code2, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import LaunchForm from '../components/LaunchForm'
 
 const FEATURES = [
   {
     icon: Zap,
-    title: 'Instant Deployment',
-    desc: 'Deploy SEP-41 compliant tokens to Stellar Testnet in seconds via Soroban smart contracts.',
+    title: 'Launch in seconds',
+    desc: 'Fill out a simple form and your SEP-41 token is live on Stellar Testnet. No CLI, no config files, no waiting.',
+    color: '#2563eb',
+    bg: '#eff6ff',
   },
   {
     icon: Shield,
-    title: 'Fully On-Chain',
-    desc: 'Inter-contract calls handle initialization, minting, and admin transfer atomically.',
+    title: 'Fully on-chain',
+    desc: 'Every token is deployed via Soroban smart contracts. Initialization, minting, and admin transfer happen atomically in a single transaction.',
+    color: '#16a34a',
+    bg: '#f0fdf4',
   },
   {
     icon: Globe,
-    title: 'Production Ready',
-    desc: 'Mobile-responsive UI, CI/CD pipeline, and comprehensive test coverage.',
+    title: 'Open registry',
+    desc: 'Every launched token is indexed in the launchpad contract. Browse the full registry, filter by creator, and verify on Stellar Expert.',
+    color: '#7c3aed',
+    bg: '#f5f3ff',
+  },
+  {
+    icon: Layers,
+    title: 'SEP-41 compliant',
+    desc: 'Tokens follow the Stellar Ecosystem Proposal 41 standard — compatible with wallets, DEXes, and any Soroban-aware application.',
+    color: '#0891b2',
+    bg: '#ecfeff',
+  },
+  {
+    icon: Users,
+    title: 'Creator dashboard',
+    desc: 'Track every token you\'ve launched from a single dashboard. See supply, decimals, contract address, and launch date at a glance.',
+    color: '#d97706',
+    bg: '#fffbeb',
+  },
+  {
+    icon: Code2,
+    title: 'Open source',
+    desc: 'The launchpad and token contracts are fully open source. Fork them, audit them, or build your own launchpad on top.',
+    color: '#dc2626',
+    bg: '#fef2f2',
   },
 ]
 
-export default function HomePage() {
-  const [lastTxHash, setLastTxHash] = useState<string | null>(null)
+const HOW_IT_WORKS = [
+  {
+    step: '01',
+    title: 'Connect your Freighter wallet',
+    desc: 'Install the Freighter browser extension and connect to Stellar Testnet. Fund your account with free XLM from Friendbot — one click inside the app.',
+  },
+  {
+    step: '02',
+    title: 'Fill in your token details',
+    desc: 'Give your token a name, symbol, decimal precision, and initial supply. A live preview shows exactly what will be deployed before you confirm.',
+  },
+  {
+    step: '03',
+    title: 'Sign and deploy',
+    desc: 'Approve the transaction in Freighter. The launchpad contract deploys a fresh token contract, mints your supply, and transfers admin rights to you — all in one atomic call.',
+  },
+  {
+    step: '04',
+    title: 'Your token is live',
+    desc: 'The token contract address is recorded in the registry. Share it, list it, or integrate it. You own the admin key and can mint more or transfer ownership anytime.',
+  },
+]
 
+const STATS = [
+  { value: 'SEP-41', label: 'Token Standard' },
+  { value: 'Soroban', label: 'Smart Contract Platform' },
+  { value: '1-click', label: 'Deployment' },
+  { value: 'Testnet', label: 'Network' },
+]
+
+export default function HomePage() {
   return (
-    <div style={{ position: 'relative', zIndex: 1 }}>
+    <div style={{ position: 'relative' }}>
+
       {/* Hero */}
       <section
         style={{
-          paddingTop: 120,
-          paddingBottom: 80,
-          textAlign: 'center',
-          maxWidth: 720,
-          margin: '0 auto',
+          background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
+          borderBottom: '1px solid #e2e8f0',
           padding: '120px 24px 80px',
         }}
       >
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '6px 14px',
-            borderRadius: 20,
-            background: 'rgba(99, 102, 241, 0.1)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            marginBottom: 24,
-          }}
-        >
+        <div style={{ maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
           <div
             style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: '#6366f1',
-              boxShadow: '0 0 8px #6366f1',
-            }}
-          />
-          <span style={{ fontSize: 12, color: '#a5b4fc', fontWeight: 600, letterSpacing: '0.05em' }}>
-            STELLAR TESTNET · SOROBAN
-          </span>
-        </div>
-
-        <h1
-          style={{
-            fontFamily: "'Space Grotesk', sans-serif",
-            fontSize: 'clamp(36px, 6vw, 64px)',
-            fontWeight: 700,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: '#f1f5f9',
-            marginBottom: 20,
-          }}
-        >
-          Launch Your Token
-          <br />
-          <span
-            style={{
-              background: 'linear-gradient(135deg, #6366f1, #a78bfa, #818cf8)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '5px 14px',
+              borderRadius: 20,
+              background: '#eff6ff',
+              border: '1px solid #bfdbfe',
+              marginBottom: 28,
             }}
           >
-            on Stellar
-          </span>
-        </h1>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#2563eb' }} />
+            <span style={{ fontSize: 12, color: '#2563eb', fontWeight: 600, letterSpacing: '0.05em' }}>
+              STELLAR TESTNET · SOROBAN SMART CONTRACTS
+            </span>
+          </div>
 
-        <p
-          style={{
-            fontSize: 17,
-            color: '#64748b',
-            lineHeight: 1.7,
-            maxWidth: 520,
-            margin: '0 auto 40px',
-          }}
-        >
-          Create and deploy custom SEP-41 tokens using Soroban smart contracts.
-          Full inter-contract architecture — no coding required.
-        </p>
+          <h1
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 'clamp(38px, 6vw, 64px)',
+              fontWeight: 700,
+              lineHeight: 1.1,
+              letterSpacing: '-0.03em',
+              color: '#0f172a',
+              marginBottom: 22,
+            }}
+          >
+            Launch your token
+            <br />
+            <span style={{ color: '#2563eb' }}>on Stellar</span> — no code needed
+          </h1>
 
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to="/explore" className="btn-secondary" style={{ gap: 8 }}>
-            Explore Tokens
-            <ArrowRight size={14} />
-          </Link>
+          <p
+            style={{
+              fontSize: 18,
+              color: '#475569',
+              lineHeight: 1.7,
+              maxWidth: 540,
+              margin: '0 auto 40px',
+            }}
+          >
+            TokenLaunch deploys SEP-41 compliant tokens to the Stellar blockchain using Soroban smart contracts.
+            Connect your wallet, fill a form, and you're done.
+          </p>
+
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/launch" className="btn-primary" style={{ padding: '13px 28px', fontSize: 15 }}>
+              Launch a Token
+              <ArrowRight size={16} />
+            </Link>
+            <Link to="/explore" className="btn-secondary" style={{ padding: '13px 28px', fontSize: 15 }}>
+              Explore Tokens
+            </Link>
+          </div>
+
+          {/* Trust line */}
+          <div style={{ marginTop: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 20, flexWrap: 'wrap' }}>
+            {['No coding required', 'Free on Testnet', 'Open source contracts'].map((item) => (
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <CheckCircle size={14} color="#16a34a" />
+                <span style={{ fontSize: 13, color: '#64748b' }}>{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Main content */}
-      <section
-        style={{
-          maxWidth: 1100,
-          margin: '0 auto',
-          padding: '0 24px 80px',
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 420px)',
-          gap: 32,
-          alignItems: 'start',
-        }}
-      >
-        {/* Left: features + info */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          {/* Feature cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {FEATURES.map(({ icon: Icon, title, desc }) => (
+      {/* Stats bar */}
+      <section style={{ background: '#0f172a', padding: '28px 24px' }}>
+        <div
+          style={{
+            maxWidth: 900,
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+            gap: 24,
+          }}
+        >
+          {STATS.map(({ value, label }) => (
+            <div key={label} style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 22, fontWeight: 700, color: '#f1f5f9', letterSpacing: '-0.02em' }}>
+                {value}
+              </div>
+              <div style={{ fontSize: 12, color: '#64748b', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                {label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section style={{ padding: '80px 24px', background: '#f8fafc' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
+              Why TokenLaunch
+            </div>
+            <h2
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 'clamp(26px, 4vw, 40px)',
+                fontWeight: 700,
+                color: '#0f172a',
+                letterSpacing: '-0.02em',
+                marginBottom: 14,
+              }}
+            >
+              Everything you need to ship a token
+            </h2>
+            <p style={{ fontSize: 16, color: '#64748b', maxWidth: 480, margin: '0 auto' }}>
+              Built on Soroban, Stellar's smart contract platform. Designed for developers and non-developers alike.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+              gap: 20,
+            }}
+          >
+            {FEATURES.map(({ icon: Icon, title, desc, color, bg }) => (
               <div
                 key={title}
                 className="glass-card"
-                style={{ padding: '20px 24px', display: 'flex', gap: 16, alignItems: 'flex-start' }}
+                style={{ padding: '28px 24px' }}
               >
                 <div
                   style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: 'rgba(99, 102, 241, 0.12)',
-                    border: '1px solid rgba(99, 102, 241, 0.2)',
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: bg,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0,
+                    marginBottom: 16,
                   }}
                 >
-                  <Icon size={18} color="#6366f1" />
+                  <Icon size={20} color={color} />
+                </div>
+                <div style={{ fontWeight: 600, fontSize: 15, color: '#0f172a', marginBottom: 8 }}>
+                  {title}
+                </div>
+                <div style={{ fontSize: 14, color: '#64748b', lineHeight: 1.65 }}>{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section style={{ padding: '80px 24px', background: 'white', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
+              How it works
+            </div>
+            <h2
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 'clamp(26px, 4vw, 40px)',
+                fontWeight: 700,
+                color: '#0f172a',
+                letterSpacing: '-0.02em',
+                marginBottom: 14,
+              }}
+            >
+              From zero to token in four steps
+            </h2>
+            <p style={{ fontSize: 16, color: '#64748b', maxWidth: 440, margin: '0 auto' }}>
+              The whole process takes under two minutes. Here's exactly what happens.
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {HOW_IT_WORKS.map(({ step, title, desc }, i) => (
+              <div
+                key={step}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '80px 1fr',
+                  gap: 24,
+                  padding: '32px 0',
+                  borderBottom: i < HOW_IT_WORKS.length - 1 ? '1px solid #f1f5f9' : 'none',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 36,
+                    fontWeight: 700,
+                    color: '#e2e8f0',
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1,
+                    paddingTop: 4,
+                  }}
+                >
+                  {step}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: 14, color: '#e2e8f0', marginBottom: 4 }}>
+                  <div style={{ fontWeight: 600, fontSize: 17, color: '#0f172a', marginBottom: 8 }}>
                     {title}
                   </div>
-                  <div style={{ fontSize: 13, color: '#64748b', lineHeight: 1.6 }}>{desc}</div>
+                  <div style={{ fontSize: 14, color: '#64748b', lineHeight: 1.7 }}>{desc}</div>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Architecture note */}
-          <div
-            className="glass-card"
-            style={{ padding: '20px 24px' }}
-          >
-            <div style={{ fontSize: 12, color: '#6366f1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
-              Contract Architecture
+      {/* Contract architecture */}
+      <section style={{ padding: '80px 24px', background: '#f8fafc' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ fontSize: 12, color: '#2563eb', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
+              Under the hood
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[
-                { label: 'Launchpad Contract', desc: 'Orchestrates deployments, stores registry' },
-                { label: 'Token Contract (×N)', desc: 'SEP-41 token deployed per launch' },
-                { label: 'Inter-Contract Calls', desc: 'initialize → mint → set_admin' },
-              ].map(({ label, desc }) => (
-                <div key={label} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <h2
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 'clamp(24px, 3.5vw, 36px)',
+                fontWeight: 700,
+                color: '#0f172a',
+                letterSpacing: '-0.02em',
+                marginBottom: 14,
+              }}
+            >
+              Inter-contract architecture
+            </h2>
+            <p style={{ fontSize: 15, color: '#64748b', maxWidth: 480, margin: '0 auto' }}>
+              The launchpad orchestrates three inter-contract calls in a single transaction — no partial states, no manual steps.
+            </p>
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: 16,
+            }}
+          >
+            {[
+              { num: '1', label: 'initialize()', desc: 'Sets admin, decimals, name, and symbol on the freshly deployed token contract.' },
+              { num: '2', label: 'mint()', desc: 'Mints the full initial supply directly to the creator\'s wallet address.' },
+              { num: '3', label: 'set_admin()', desc: 'Transfers admin rights from the launchpad to the creator — you own your token.' },
+            ].map(({ num, label, desc }) => (
+              <div
+                key={num}
+                className="glass-card"
+                style={{ padding: '24px 20px' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                   <div
                     style={{
-                      width: 6,
-                      height: 6,
-                      borderRadius: '50%',
-                      background: '#6366f1',
-                      marginTop: 6,
-                      flexShrink: 0,
+                      width: 28,
+                      height: 28,
+                      borderRadius: 8,
+                      background: '#eff6ff',
+                      border: '1px solid #bfdbfe',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: '#2563eb',
                     }}
-                  />
-                  <div>
-                    <span style={{ fontSize: 13, fontWeight: 500, color: '#c7d2fe' }}>{label}</span>
-                    <span style={{ fontSize: 12, color: '#475569', marginLeft: 8 }}>{desc}</span>
+                  >
+                    {num}
                   </div>
+                  <code style={{ fontSize: 13, fontFamily: "'DM Mono', monospace", color: '#2563eb', fontWeight: 500 }}>
+                    {label}
+                  </code>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right: launch form */}
-        <div>
-          <div className="glass-card" style={{ padding: 28 }}>
-            <div style={{ marginBottom: 24 }}>
-              <h2
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: 20,
-                  fontWeight: 700,
-                  color: '#f1f5f9',
-                  marginBottom: 6,
-                }}
-              >
-                Launch a Token
-              </h2>
-              <p style={{ fontSize: 13, color: '#64748b' }}>
-                Fill in the details below to deploy your custom token.
-              </p>
-            </div>
-
-            <LaunchForm onSuccess={setLastTxHash} />
-
-            {lastTxHash && (
-              <div
-                style={{
-                  marginTop: 16,
-                  padding: '12px 16px',
-                  background: 'rgba(16, 185, 129, 0.08)',
-                  border: '1px solid rgba(16, 185, 129, 0.2)',
-                  borderRadius: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 12,
-                }}
-              >
-                <div>
-                  <div style={{ fontSize: 11, color: '#10b981', fontWeight: 600, marginBottom: 2 }}>
-                    ✓ Transaction confirmed
-                  </div>
-                  <div style={{ fontSize: 11, color: '#475569', fontFamily: 'monospace' }}>
-                    {lastTxHash.slice(0, 20)}...
-                  </div>
-                </div>
-                <a
-                  href={`https://stellar.expert/explorer/testnet/tx/${lastTxHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: '#10b981', display: 'flex', alignItems: 'center' }}
-                >
-                  <ExternalLink size={14} />
-                </a>
+                <div style={{ fontSize: 13, color: '#64748b', lineHeight: 1.6 }}>{desc}</div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </section>
+
+      {/* CTA */}
+      <section
+        style={{
+          padding: '80px 24px',
+          background: '#0f172a',
+          textAlign: 'center',
+        }}
+      >
+        <div style={{ maxWidth: 560, margin: '0 auto' }}>
+          <h2
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 'clamp(26px, 4vw, 40px)',
+              fontWeight: 700,
+              color: '#f1f5f9',
+              letterSpacing: '-0.02em',
+              marginBottom: 16,
+            }}
+          >
+            Ready to launch your token?
+          </h2>
+          <p style={{ fontSize: 16, color: '#64748b', marginBottom: 36, lineHeight: 1.6 }}>
+            It's free on Testnet. Connect your Freighter wallet and deploy your first token in under two minutes.
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/launch" className="btn-primary" style={{ padding: '14px 32px', fontSize: 15 }}>
+              Get started
+              <ChevronRight size={16} />
+            </Link>
+            <Link to="/explore" className="btn-secondary" style={{ padding: '14px 28px', fontSize: 15, background: 'transparent', color: '#94a3b8', borderColor: '#334155' }}>
+              Browse tokens
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: '#0f172a', borderTop: '1px solid #1e293b', padding: '24px', textAlign: 'center' }}>
+        <p style={{ fontSize: 13, color: '#475569' }}>
+          Built on Stellar · Powered by Soroban · Open source
+        </p>
+      </footer>
     </div>
   )
 }
