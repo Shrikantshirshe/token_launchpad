@@ -174,16 +174,19 @@ VITE_NETWORK_PASSPHRASE=Test SDF Network ; September 2015
 
 ---
 
-## What's still needed from you
+Screenshots
+<img width="1278" height="867" alt="Screenshot 2026-04-23 at 10 27 17 PM" src="https://github.com/user-attachments/assets/365de6f7-9cb1-4227-9b00-c10d62d62eae" />
+<img width="1461" height="878" alt="Screenshot 2026-04-23 at 10 27 39 PM" src="https://github.com/user-attachments/assets/e994969f-7665-482a-ac5e-f8e311d06442" />
+<img width="1455" height="874" alt="Screenshot 2026-04-23 at 10 27 47 PM" src="https://github.com/user-attachments/assets/7c28fa52-73b5-4d14-a86f-da6c130f2d6c" />
 
-Two things can't be automated:
 
-- **Demo video** — a 1-minute screen recording showing connect wallet → fund → launch token → see it in explorer. Loom works fine.
-- **Mobile screenshot** — open the live app on your phone or use Chrome DevTools mobile view, screenshot the launch page.
 
-Drop both into the README once you have them.
+mobile view
 
----
+<img width="359" height="776" alt="Screenshot 2026-04-23 at 10 28 29 PM" src="https://github.com/user-attachments/assets/95473384-7e2c-49d2-a6f8-cf362dd222da" />
+<img width="358" height="771" alt="Screenshot 2026-04-23 at 10 28 35 PM" src="https://github.com/user-attachments/assets/e459d6cd-efbe-4b2b-aae0-4ad14b3c7b6a" />
+<img width="360" height="776" alt="Screenshot 2026-04-23 at 10 28 47 PM" src="https://github.com/user-attachments/assets/84b426b8-9bb0-48ce-9851-420eadc137fb" />
+
 
 ## License
 
