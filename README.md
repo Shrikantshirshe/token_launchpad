@@ -188,6 +188,9 @@ mobile view
 <img width="360" height="776" alt="Screenshot 2026-04-23 at 10 28 47 PM" src="https://github.com/user-attachments/assets/84b426b8-9bb0-48ce-9851-420eadc137fb" />
 
 
+
+
+demo video- https://drive.google.com/file/d/1V1XYDFZe9HWyzWS7huI2jbBDLiEG2MHO/view?usp=sharing
 ## License
 
 MIT
